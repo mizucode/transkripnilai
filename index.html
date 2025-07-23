@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transkrip Nilai Sementara</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+
+    <style>
+      body {
+        font-family: "Roboto", "Arial", sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f6f8;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        color: #333;
+        font-size: 11pt; /* Ukuran font dasar untuk body */
+      }
+
+      /* Print Button Styling */
+      .print-button-container {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .print-action-button {
+        padding: 12px 25px;
+        font-size: 1.1rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .print-action-button:hover {
+        background-color: #0056b3;
+      }
+
+      .print-action-button i {
+        margin-right: 8px;
+      }
+
+      /* A4 Page Styling for Screen View */
+      /* Ini adalah tampilan di browser sebelum dicetak */
+      .a4-page {
+        background: #fff;
+        width: 210mm;
+        /* min-height digunakan agar konten bisa memanjang di browser */
+        min-height: 297mm;
+        margin: 0 auto;
+        box-sizing: border-box;
+        padding: 20mm 25mm; /* Margin yang lebih proporsional untuk surat */
+        box-shadow: 0 0 5mm rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        display: flex;
+        flex-direction: column;
+        /* Hapus overflow: hidden; agar konten bisa melewati batas di layar */
+        /* overflow: hidden; */
+      }
+
+      /* Header Section */
+      .header-kop-surat {
+        width: 100%;
+        margin-bottom: 15mm; /* Jarak antara kop surat dan judul */
+      }
+
+      .header-kop-surat img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .judul-transkrip {
+        font-size: 1.3em; /* Ukuran font sedikit lebih besar dari body */
+        font-weight: 700; /* Lebih tebal */
+        text-align: center; /* Judul di tengah */
+        margin-bottom: 20px; /* Jarak bawah judul */
+        text-transform: uppercase; /* Huruf kapital semua */
+      }
+
+      /* Student Identity Section */
+      .container-identitas {
+        width: 100%;
+        margin-bottom: 25px; /* Jarak bawah identitas mahasiswa */
+        /* Pastikan blok identitas tidak terpisah */
+        page-break-inside: avoid;
+      }
+
+      .identitas-table {
+        border-collapse: collapse; /* Menggunakan collapse agar rapi */
+        width: 100%; /* Memenuhi lebar container */
+        margin-top: 10px;
+      }
+
+      .identitas-table td {
+        padding: 3px 0; /* Padding vertikal sedikit */
+        vertical-align: top;
+        font-size: 1em;
+      }
+
+      .identitas-label {
+        width: 120px; /* Lebar tetap untuk label */
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      .identitas-colon {
+        width: 10px; /* Lebar tetap untuk titik dua */
+        text-align: center;
+      }
+
+      /* Course Table Section */
+      .container-mata-kuliah {
+        width: 100%;
+        margin-bottom: 25px;
+        /* Flex-grow agar tabel bisa memanjang ke bawah sesuai sisa ruang */
+        flex-grow: 1;
+        /* Set minimum tinggi untuk memastikan flex-grow berfungsi */
+        min-height: 1px;
+      }
+
+      .table-mata-kuliah {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 1em;
+      }
+
+      .table-mata-kuliah th,
+      .table-mata-kuliah td {
+        border: 1px solid #ccc;
+        padding: 8px 12px;
+        text-align: left;
+      }
+
+      .table-mata-kuliah th {
+        background-color: #f2f2f2;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .table-mata-kuliah tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+
+      /* Summary and Signature Section */
+      .summary-signature-section {
+        width: 100%;
+        display: flex;
+        flex-direction: row; /* Untuk mensejajarkan summary dan signature */
+        justify-content: space-between; /* Menyebar ke ujung kiri dan kanan */
+        align-items: flex-end; /* Memastikan bagian bawahnya sejajar */
+        margin-top: auto; /* Mendorong ke bawah halaman */
+        page-break-inside: avoid; /* Pastikan bagian ini tidak terpotong */
+        /* Tambahkan sedikit padding-top untuk jarak dari tabel di atasnya, jika tabel pecah halaman */
+        padding-top: 15mm;
+      }
+
+      .summary-container {
+        display: grid;
+        grid-template-columns: auto 10px 1fr;
+        gap: 5px 0px;
+        width: 100%;
+        max-width: 400px;
+        flex-shrink: 0;
+      }
+
+      .summary-label {
+        font-weight: 500;
+      }
+
+      .summary-value {
+        font-weight: 700;
+      }
+
+      .signature-block {
+        width: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        text-align: right;
+        flex-shrink: 0;
+      }
+
+      .signature-block div {
+        margin-bottom: 4px;
+      }
+
+      .signature-date {
+        margin-bottom: 80px;
+      }
+
+      .signer-name {
+        font-weight: bold;
+        text-decoration: underline;
+      }
+
+      /* Print Instructions */
+      .print-instructions {
+        margin-top: 30px;
+        padding: 20px;
+        background-color: #e9f5ff;
+        border: 1px solid #b8d6eb;
+        border-radius: 8px;
+        color: #31708f;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .print-instructions h3 {
+        margin-top: 0;
+        color: #23527c;
+      }
+
+      .print-instructions ol {
+        margin-left: 20px;
+        padding-left: 0;
+      }
+
+      .print-instructions li {
+        margin-bottom: 5px;
+      }
+
+      /* --- Print Specific Styles --- */
+      @media print {
+        html,
+        body {
+          height: auto; /* Biarkan tinggi body menyesuaikan konten saat dicetak */
+          margin: 0;
+          padding: 0;
+          background-color: white;
+          color: #000;
+          -webkit-print-color-adjust: exact !important;
+          color-adjust: exact !important;
+        }
+
+        .print-button-container,
+        .print-instructions {
+          display: none;
+        }
+
+        .a4-page {
+          width: 210mm;
+          /* Hilangkan tinggi tetap, biarkan konten menentukan tinggi halaman */
+          /* height: 297mm; */
+          min-height: 297mm; /* Untuk memastikan halaman minimal A4 */
+          margin: 0;
+          padding: 4pt 25mm 4pt 25mm; /* Margin Word-like: 4pt atas/bawah, 25mm kiri/kanan */
+          box-shadow: none;
+          /* Penting: Set display ke block agar page-break berfungsi dengan baik */
+          display: block;
+          /* Tambahkan agar setiap instance .a4-page memulai halaman baru */
+          page-break-after: always;
+        }
+
+        /* Jika ada beberapa .a4-page di masa depan, pastikan yang terakhir tidak memiliki page-break-after */
+        .a4-page:last-of-type {
+          page-break-after: avoid;
+        }
+
+        /* Memastikan elemen-elemen penting tidak terpotong kecuali tabel */
+        .header-kop-surat,
+        .judul-transkrip,
+        .container-identitas {
+          page-break-inside: avoid;
+        }
+
+        .container-mata-kuliah {
+          /* Biarkan tabel bisa pecah ke halaman berikutnya jika terlalu panjang */
+          page-break-inside: auto;
+          /* Hilangkan flex-grow yang mungkin mengganggu perhitungan tinggi di print */
+          flex-grow: unset;
+        }
+
+        .table-mata-kuliah {
+          width: 100%;
+          border-collapse: collapse;
+          /* Biarkan tabel pecah barisnya, tapi hindari pecah sel */
+          page-break-inside: auto;
+        }
+
+        .table-mata-kuliah thead {
+          display: table-header-group; /* Agar header tabel terulang di setiap halaman */
+        }
+
+        .table-mata-kuliah tbody tr {
+          /* Usahakan baris tidak terpotong di tengah */
+          page-break-inside: avoid;
+          page-break-after: auto; /* Biarkan baris pecah setelahnya jika perlu */
+        }
+
+        .summary-signature-section {
+          /* Penting: Pastikan bagian ini tidak terpotong */
+          page-break-inside: avoid;
+          /* Jika summary dan signature block sangat panjang sehingga tidak muat di sisa halaman,
+             maka mereka akan dipindahkan ke halaman berikutnya secara utuh. */
+          margin-top: auto; /* Tetap dorong ke bawah */
+          padding-top: 15mm; /* Jarak dari tabel di halaman baru */
+        }
+      }
+
+      /* Aturan @page untuk mengatur ukuran dan margin kertas cetak */
+      @page {
+        size: A4 portrait; /* Set ukuran kertas ke A4 dan orientasi portrait */
+        margin: 0; /* Atur margin halaman fisik ke 0, karena padding di .a4-page akan berfungsi sebagai margin */
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="print-button-container">
+      <button id="printButton" class="print-action-button">
+        <i class="fas fa-print"></i> Cetak Transkrip
+      </button>
+    </div>
+
+    <div class="a4-page" id="pageToPrint">
+      <header class="header-kop-surat">
+        <img
+          src="/img/Kop Surat Lembaga Pembangunan, Pengembangan Teknologi dan SI.png"
+          alt="Kop Surat Lembaga Pembangunan, Pengembangan Teknologi dan SI"
+        />
+      </header>
+
+      <h1 class="judul-transkrip">Transkrip Nilai Sementara</h1>
+
+      <section class="container-identitas">
+        <table class="identitas-table">
+          <tr>
+            <td class="identitas-label">Nama</td>
+            <td class="identitas-colon">:</td>
+            <td class="identitas-value">Riki Muhamad Fadilah</td>
+          </tr>
+          <tr>
+            <td class="identitas-label">NIM</td>
+            <td class="identitas-colon">:</td>
+            <td class="identitas-value">211223049</td>
+          </tr>
+          <tr>
+            <td class="identitas-label">Program Studi</td>
+            <td class="identitas-colon">:</td>
+            <td class="identitas-value">
+              Pendidikan Teknologi Informasi dan Komunikasi
+            </td>
+          </tr>
+          <tr>
+            <td class="identitas-label">Fakultas</td>
+            <td class="identitas-colon">:</td>
+            <td class="identitas-value">
+              Fakultas Pendidikan Sosial dan Teknologi
+            </td>
+          </tr>
+          <tr>
+            <td class="identitas-label">Jenjang</td>
+            <td class="identitas-colon">:</td>
+            <td class="identitas-value">S1 (Sarjana)</td>
+          </tr>
+        </table>
+      </section>
+
+      <section class="container-mata-kuliah">
+        <table class="table-mata-kuliah">
+          <thead>
+            <tr>
+              <th>NO</th>
+              <th>KODE</th>
+              <th>MATA KULIAH</th>
+              <th>SKS</th>
+              <th>NILAI</th>
+              <th>TA</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>MK101</td>
+              <td>Matematika Dasar</td>
+              <td>3</td>
+              <td>A</td>
+              <td>20211</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>MK102</td>
+              <td>Fisika Dasar</td>
+              <td>3</td>
+              <td>B+</td>
+              <td>20211</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>MK103</td>
+              <td>Kimia Dasar</td>
+              <td>3</td>
+              <td>B</td>
+              <td>20211</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>MK104</td>
+              <td>Bahasa Inggris</td>
+              <td>2</td>
+              <td>A-</td>
+              <td>20211</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>MK105</td>
+              <td>Pendidikan Agama</td>
+              <td>2</td>
+              <td>A</td>
+              <td>20211</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>MK201</td>
+              <td>Algoritma dan Pemrograman</td>
+              <td>4</td>
+              <td>A</td>
+              <td>20212</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>MK202</td>
+              <td>Struktur Data</td>
+              <td>3</td>
+              <td>A-</td>
+              <td>20212</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>MK203</td>
+              <td>Basis Data</td>
+              <td>3</td>
+              <td>B+</td>
+              <td>20212</td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>MK204</td>
+              <td>Jaringan Komputer</td>
+              <td>3</td>
+              <td>A</td>
+              <td>20212</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>MK205</td>
+              <td>Sistem Operasi</td>
+              <td>3</td>
+              <td>B</td>
+              <td>20212</td>
+            </tr>
+            <tr>
+              <td>11</td>
+              <td>MK301</td>
+              <td>Pemrograman Web Lanjut</td>
+              <td>3</td>
+              <td>A</td>
+              <td>20221</td>
+            </tr>
+            <tr>
+              <td>12</td>
+              <td>MK302</td>
+              <td>Analisis dan Desain Sistem</td>
+              <td>3</td>
+              <td>B+</td>
+              <td>20221</td>
+            </tr>
+            <tr>
+              <td>13</td>
+              <td>MK303</td>
+              <td>Rekayasa Perangkat Lunak</td>
+              <td>3</td>
+              <td>A-</td>
+              <td>20221</td>
+            </tr>
+            <tr>
+              <td>14</td>
+              <td>MK304</td>
+              <td>Kecerdasan Buatan</td>
+              <td>3</td>
+              <td>B</td>
+              <td>20221</td>
+            </tr>
+            <tr>
+              <td>15</td>
+              <td>MK305</td>
+              <td>Keamanan Jaringan</td>
+              <td>3</td>
+              <td>A</td>
+              <td>20221</td>
+            </tr>
+            <tr>
+              <td>16</td>
+              <td>MK401</td>
+              <td>Pengolahan Citra Digital</td>
+              <td>3</td>
+              <td>B+</td>
+              <td>20222</td>
+            </tr>
+            <tr>
+              <td>17</td>
+              <td>MK402</td>
+              <td>Sistem Informasi Geografis</td>
+              <td>3</td>
+              <td>A-</td>
+              <td>20222</td>
+            </tr>
+            <tr>
+              <td>18</td>
+              <td>MK403</td>
+              <td>Mobile Programming</td>
+              <td>3</td>
+              <td>B</td>
+              <td>20222</td>
+            </tr>
+            <tr>
+              <td>19</td>
+              <td>MK404</td>
+              <td>Praktikum Web Service</td>
+              <td>2</td>
+              <td>A</td>
+              <td>20222</td>
+            </tr>
+            <tr>
+              <td>20</td>
+              <td>MK405</td>
+              <td>Etika Profesi IT</td>
+              <td>2</td>
+              <td>A</td>
+              <td>20222</td>
+            </tr>
+            <tr>
+              <td>21</td>
+              <td>MK501</td>
+              <td>Skripsi</td>
+              <td>6</td>
+              <td>A</td>
+              <td>20231</td>
+            </tr>
+            <tr>
+              <td>22</td>
+              <td>MK502</td>
+              <td>Kerja Praktik</td>
+              <td>3</td>
+              <td>A</td>
+              <td>20231</td>
+            </tr>
+            <tr>
+              <td>23</td>
+              <td>MK503</td>
+              <td>Metodologi Penelitian</td>
+              <td>3</td>
+              <td>B+</td>
+              <td>20231</td>
+            </tr>
+            <tr>
+              <td>24</td>
+              <td>MK504</td>
+              <td>E-Commerce</td>
+              <td>3</td>
+              <td>A-</td>
+              <td>20231</td>
+            </tr>
+            <tr>
+              <td>25</td>
+              <td>MK505</td>
+              <td>Data Mining</td>
+              <td>3</td>
+              <td>B</td>
+              <td>20231</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <footer class="summary-signature-section">
+        <div class="summary-container">
+          <div class="summary-label">Total SKS Ditempuh</div>
+          <div class="identitas-colon">:</div>
+          <div class="summary-value">150</div>
+          <div class="summary-label">Indeks Prestasi Kumulatif</div>
+          <div class="identitas-colon">:</div>
+          <div class="summary-value">7.34</div>
+        </div>
+
+        <div class="signature-block">
+          <div class="signature-date">Kuningan, 23 Juli 2025</div>
+          <div>Dekan,</div>
+          <div style="height: 60px"></div>
+          <div class="signer-name">Dr. Boby Agustan, M.Pd.</div>
+          <div class="signer-nik">NIK. 201402033</div>
+        </div>
+      </footer>
+    </div>
+
+    <div class="print-instructions">
+      <h3>Petunjuk Mencetak Transkrip Nilai</h3>
+      <ol>
+        <li>
+          Gunakan browser **Chrome** atau **Firefox** untuk hasil terbaik.
+        </li>
+        <li>
+          Tekan **Ctrl+P** (atau Cmd+P di Mac) atau klik tombol **"Cetak
+          Transkrip"** di atas untuk membuka dialog print.
+        </li>
+        <li>Set **Destinasi** ke printer Anda.</li>
+        <li>Set **Layout** ke "Portrait".</li>
+        <li>Set **Ukuran Kertas** ke "A4".</li>
+        <li>
+          Set **Margin**:
+          <ul>
+            <li>Disarankan: "Default" atau "Minimum".</li>
+            <li>
+              Hindari "None" karena akan menghilangkan margin yang sudah diatur
+              di dokumen.
+            </li>
+          </ul>
+        </li>
+        <li>Set **Skala** ke "Default" atau "100%".</li>
+        <li>
+          Pastikan opsi **"Grafis latar belakang"** (Background graphics)
+          **DICENTANG**. Jika tidak, warna latar belakang header tabel mungkin
+          tidak tercetak.
+        </li>
+      </ol>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const printButton = document.getElementById("printButton");
+        if (printButton) {
+          printButton.addEventListener("click", function () {
+            window.print();
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

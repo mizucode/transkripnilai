@@ -1,0 +1,206 @@
+/* Print Page Styling */
+.a4-page {
+  background: #fff;
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 16mm 8mm 12mm 8mm;
+  box-shadow: 0 0 2mm rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.a4-page > img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.a4-page .judul-transkrip {
+  font-size: 1.25em;
+  font-weight: bold;
+  text-align: left;
+  letter-spacing: 1px;
+}
+
+.a4-page .container-identitas {
+  width: 100%;
+  padding-left: 4pt;
+  padding-right: 4pt;
+}
+/* Identitas Table Styling */
+.container-identitas {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 4pt;
+  padding-right: 4pt;
+}
+
+.identitas-table {
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  width: auto;
+  min-width: 350px;
+}
+margin: 4px 0 12px 0;
+.identitas-label {
+  text-align: left;
+  font-weight: 500;
+  padding-right: 12px;
+  vertical-align: middle;
+  font-size: 1.05em;
+  white-space: nowrap;
+}
+
+.identitas-colon {
+  text-align: center;
+  width: 24px;
+  font-weight: bold;
+  vertical-align: middle;
+  font-size: 1.1em;
+}
+
+.identitas-value {
+  text-align: left;
+  vertical-align: middle;
+  font-size: 1.05em;
+}
+body {
+  font-family: "Roboto", "Arial", sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f4f6f8;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #333;
+}
+
+.print-button-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.print-action-button {
+  padding: 12px 25px;
+  font-size: 1.1rem;
+  background-color: #007bff;
+  /* Warna biru yang umum */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.print-action-button:hover {
+  background-color: #0056b3;
+  /* Warna biru lebih gelap saat hover */
+}
+
+.print-action-button i {
+  margin-right: 8px;
+}
+
+.judul-transkrip {
+  font-size: 12pt;
+}
+.container-identitas {
+}
+
+.a4-page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto 20px auto;
+  padding: 5mm;
+  background-color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 10mm 5mm;
+  /* Sesuaikan gap ini jika perlu */
+}
+
+.text-navy {
+  color: #04294d !important;
+}
+
+.print-instructions {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #e9f5ff;
+  border: 1px solid #b8d6eb;
+  border-radius: 8px;
+  color: #31708f;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.print-instructions h3 {
+  margin-top: 0;
+  color: #23527c;
+}
+
+.print-instructions ol {
+  margin-left: 20px;
+  padding-left: 0;
+}
+
+.print-instructions li {
+  margin-bottom: 5px;
+}
+
+@media print {
+  body {
+    padding: 0;
+    margin: 0;
+    background-color: white;
+    color: #000;
+    -webkit-print-color-adjust: exact !important;
+    /* Chrome, Safari, Edge */
+    color-adjust: exact !important;
+    /* Firefox */
+  }
+
+  .print-button-container {
+    display: none;
+  }
+
+  .a4-page {
+    width: 100%;
+    min-height: initial;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    gap: 10mm 5mm;
+    align-content: flex-start;
+  }
+
+  .stk-card {
+    box-shadow: none;
+  }
+
+  .stk-header {
+    border-bottom-color: #adadad !important;
+  }
+
+  .print-instructions {
+    display: none;
+  }
+}
+
+@page {
+  size: A4 portrait;
+  margin: 5mm;
+  /* Sesuaikan margin ini dengan printer Anda */
+}
