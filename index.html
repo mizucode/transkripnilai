@@ -24,10 +24,9 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         color: #333;
-        font-size: 11pt; /* Ukuran font dasar untuk body */
+        font-size: 11pt;
       }
 
-      /* Print Button Styling */
       .print-button-container {
         text-align: center;
         margin-bottom: 20px;
@@ -53,28 +52,22 @@
         margin-right: 8px;
       }
 
-      /* A4 Page Styling for Screen View */
-      /* Ini adalah tampilan di browser sebelum dicetak */
       .a4-page {
         background: #fff;
         width: 210mm;
-        /* min-height digunakan agar konten bisa memanjang di browser */
+
         min-height: 297mm;
         margin: 0 auto;
         box-sizing: border-box;
-        padding: 20mm 25mm; /* Margin yang lebih proporsional untuk surat */
+        padding: 20mm 25mm;
         box-shadow: 0 0 5mm rgba(0, 0, 0, 0.1);
         border-radius: 4px;
         display: flex;
         flex-direction: column;
-        /* Hapus overflow: hidden; agar konten bisa melewati batas di layar */
-        /* overflow: hidden; */
       }
 
-      /* Header Section */
       .header-kop-surat {
         width: 100%;
-        margin-bottom: 15mm; /* Jarak antara kop surat dan judul */
       }
 
       .header-kop-surat img {
@@ -84,51 +77,50 @@
       }
 
       .judul-transkrip {
-        font-size: 1.3em; /* Ukuran font sedikit lebih besar dari body */
-        font-weight: 700; /* Lebih tebal */
-        text-align: center; /* Judul di tengah */
-        margin-bottom: 20px; /* Jarak bawah judul */
-        text-transform: uppercase; /* Huruf kapital semua */
+        font-size: 1.3em;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 20px;
+        text-transform: uppercase;
       }
 
-      /* Student Identity Section */
       .container-identitas {
         width: 100%;
-        margin-bottom: 25px; /* Jarak bawah identitas mahasiswa */
-        /* Pastikan blok identitas tidak terpisah */
+        margin-bottom: 25px;
         page-break-inside: avoid;
       }
 
       .identitas-table {
-        border-collapse: collapse; /* Menggunakan collapse agar rapi */
-        width: 100%; /* Memenuhi lebar container */
+        border-collapse: collapse;
+        width: 100%;
         margin-top: 10px;
       }
 
       .identitas-table td {
-        padding: 3px 0; /* Padding vertikal sedikit */
+        padding: 3px 0;
         vertical-align: top;
         font-size: 1em;
       }
 
       .identitas-label {
-        width: 120px; /* Lebar tetap untuk label */
+        width: 120px;
         font-weight: 500;
         white-space: nowrap;
       }
 
       .identitas-colon {
-        width: 10px; /* Lebar tetap untuk titik dua */
+        width: 10px;
         text-align: center;
       }
 
-      /* Course Table Section */
+      .identitas-value {
+        padding-left: 12px;
+      }
+
       .container-mata-kuliah {
         width: 100%;
         margin-bottom: 25px;
-        /* Flex-grow agar tabel bisa memanjang ke bawah sesuai sisa ruang */
         flex-grow: 1;
-        /* Set minimum tinggi untuk memastikan flex-grow berfungsi */
         min-height: 1px;
       }
 
@@ -155,16 +147,14 @@
         background-color: #f9f9f9;
       }
 
-      /* Summary and Signature Section */
       .summary-signature-section {
         width: 100%;
         display: flex;
-        flex-direction: row; /* Untuk mensejajarkan summary dan signature */
-        justify-content: space-between; /* Menyebar ke ujung kiri dan kanan */
-        align-items: flex-end; /* Memastikan bagian bawahnya sejajar */
-        margin-top: auto; /* Mendorong ke bawah halaman */
-        page-break-inside: avoid; /* Pastikan bagian ini tidak terpotong */
-        /* Tambahkan sedikit padding-top untuk jarak dari tabel di atasnya, jika tabel pecah halaman */
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-top: auto;
+        page-break-inside: avoid;
         padding-top: 15mm;
       }
 
@@ -189,8 +179,8 @@
         width: auto;
         display: flex;
         flex-direction: column;
-        align-items: flex-end;
-        text-align: right;
+        align-items: flex-start;
+        text-align: left;
         flex-shrink: 0;
       }
 
@@ -207,7 +197,6 @@
         text-decoration: underline;
       }
 
-      /* Print Instructions */
       .print-instructions {
         margin-top: 30px;
         padding: 20px;
@@ -232,11 +221,10 @@
         margin-bottom: 5px;
       }
 
-      /* --- Print Specific Styles --- */
       @media print {
         html,
         body {
-          height: auto; /* Biarkan tinggi body menyesuaikan konten saat dicetak */
+          height: auto;
           margin: 0;
           padding: 0;
           background-color: white;
@@ -252,24 +240,21 @@
 
         .a4-page {
           width: 210mm;
-          /* Hilangkan tinggi tetap, biarkan konten menentukan tinggi halaman */
-          /* height: 297mm; */
-          min-height: 297mm; /* Untuk memastikan halaman minimal A4 */
+          min-height: 297mm;
           margin: 0;
-          padding: 4pt 25mm 4pt 25mm; /* Margin Word-like: 4pt atas/bawah, 25mm kiri/kanan */
+          padding: 4pt 15mm 4pt 15mm;
           box-shadow: none;
-          /* Penting: Set display ke block agar page-break berfungsi dengan baik */
           display: block;
-          /* Tambahkan agar setiap instance .a4-page memulai halaman baru */
           page-break-after: always;
+          margin-top: 4pt;
+          margin-bottom: 4pt;
         }
 
-        /* Jika ada beberapa .a4-page di masa depan, pastikan yang terakhir tidak memiliki page-break-after */
         .a4-page:last-of-type {
           page-break-after: avoid;
+          margin-bottom: 0;
         }
 
-        /* Memastikan elemen-elemen penting tidak terpotong kecuali tabel */
         .header-kop-surat,
         .judul-transkrip,
         .container-identitas {
@@ -277,43 +262,24 @@
         }
 
         .container-mata-kuliah {
-          /* Biarkan tabel bisa pecah ke halaman berikutnya jika terlalu panjang */
           page-break-inside: auto;
-          /* Hilangkan flex-grow yang mungkin mengganggu perhitungan tinggi di print */
           flex-grow: unset;
         }
 
         .table-mata-kuliah {
           width: 100%;
-          border-collapse: collapse;
-          /* Biarkan tabel pecah barisnya, tapi hindari pecah sel */
-          page-break-inside: auto;
-        }
-
-        .table-mata-kuliah thead {
-          display: table-header-group; /* Agar header tabel terulang di setiap halaman */
-        }
-
-        .table-mata-kuliah tbody tr {
-          /* Usahakan baris tidak terpotong di tengah */
-          page-break-inside: avoid;
-          page-break-after: auto; /* Biarkan baris pecah setelahnya jika perlu */
         }
 
         .summary-signature-section {
-          /* Penting: Pastikan bagian ini tidak terpotong */
           page-break-inside: avoid;
-          /* Jika summary dan signature block sangat panjang sehingga tidak muat di sisa halaman,
-             maka mereka akan dipindahkan ke halaman berikutnya secara utuh. */
-          margin-top: auto; /* Tetap dorong ke bawah */
-          padding-top: 15mm; /* Jarak dari tabel di halaman baru */
+          margin-top: auto;
+          padding-top: 15mm;
         }
       }
 
-      /* Aturan @page untuk mengatur ukuran dan margin kertas cetak */
       @page {
-        size: A4 portrait; /* Set ukuran kertas ke A4 dan orientasi portrait */
-        margin: 0; /* Atur margin halaman fisik ke 0, karena padding di .a4-page akan berfungsi sebagai margin */
+        size: A4 portrait;
+        margin: 2rem 0;
       }
     </style>
   </head>
