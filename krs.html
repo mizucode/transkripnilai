@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kontrak Krs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+
+    <style>
+      body {
+        font-family: "Space Mono", "monospace";
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f6f8;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        color: #333;
+        font-size: 11pt;
+      }
+
+      .print-button-container {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .print-action-button {
+        padding: 12px 25px;
+        font-size: 1.1rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .print-action-button:hover {
+        background-color: #0056b3;
+      }
+
+      .print-action-button i {
+        margin-right: 8px;
+      }
+
+      .a4-page {
+        background: #fff;
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0 auto;
+        box-sizing: border-box;
+        padding: 20mm 25mm;
+        box-shadow: 0 0 5mm rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        display: flex;
+        flex-direction: column;
+        transition: width 0.2s, padding 0.2s;
+      }
+
+      .header-kop-surat {
+        width: 100%;
+      }
+
+      .header-kop-surat img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .judul-transkrip {
+        font-size: 1.3em;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+      }
+
+      .container-identitas {
+        width: 100%;
+        margin-bottom: 25px;
+        page-break-inside: avoid;
+      }
+
+      .identitas-table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      .identitas-table td {
+        padding: 3px 0;
+        vertical-align: top;
+        font-size: 1em;
+      }
+
+      .identitas-label {
+        width: 120px;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      .identitas-colon {
+        width: 10px;
+        text-align: center;
+      }
+
+      .identitas-value {
+        padding-left: 12px;
+      }
+
+      .container-mata-kuliah {
+        width: 100%;
+        margin-bottom: 25px;
+        flex-grow: 1;
+        min-height: 1px;
+      }
+
+      .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .table-mata-kuliah {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.8em;
+        min-width: 600px;
+      }
+
+      .table-mata-kuliah th,
+      .table-mata-kuliah td {
+        border: 1px solid #101010;
+        padding: 2px 2px;
+        text-align: center;
+        white-space: nowrap;
+      }
+      .table-mata-kuliah td:nth-child(3) {
+        text-align: left;
+      }
+      .table-mata-kuliah td:nth-child(5) {
+        text-align: left;
+      }
+
+      .table-mata-kuliah td {
+        font-size: 0.9em;
+      }
+
+      .table-mata-kuliah th {
+        font-size: 0.8;
+      }
+
+      .table-mata-kuliah th {
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .summary-signature-section {
+        width: 100%;
+      }
+      .info-krs {
+        font-size: 0.8;
+        display: grid;
+        grid-template-columns: auto 10px 1fr;
+        gap: 5px 0px;
+        width: 100%;
+        max-width: 400px;
+        flex-shrink: 0;
+        padding-top: 8px;
+      }
+
+      .summary-container {
+        display: grid;
+        grid-template-columns: auto 10px 1fr;
+        gap: 5px 0px;
+        width: 100%;
+        max-width: 400px;
+        flex-shrink: 0;
+      }
+
+      .summary-label {
+        font-weight: 500;
+        font-size: 0.8;
+      }
+
+      .summary-value {
+        font-weight: 700;
+        font-size: 0.8;
+      }
+      .signature-container {
+        display: flex;
+        justify-content: space-between;
+      }
+      .signature-place {
+        display: flex;
+        justify-content: flex-end;
+      }
+      .signature-block {
+        width: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        flex-shrink: 0;
+      }
+
+      .signature-block div {
+        margin-bottom: 4px;
+      }
+
+      .signature-date {
+        margin-bottom: 80px;
+      }
+
+      .signer-name {
+        font-weight: bold;
+      }
+
+      .print-instructions {
+        margin-top: 30px;
+        padding: 20px;
+        background-color: #e9f5ff;
+        border: 1px solid #b8d6eb;
+        border-radius: 8px;
+        color: #31708f;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .print-instructions h3 {
+        margin-top: 0;
+        color: #23527c;
+      }
+
+      .print-instructions ol {
+        margin-left: 20px;
+        padding-left: 0;
+      }
+
+      .print-instructions li {
+        margin-bottom: 5px;
+      }
+
+      .text-center {
+        text-align: center;
+      }
+
+      @media screen and (max-width: 768px) {
+        .signature-row {
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: center !important;
+          text-align: center !important;
+        }
+        .signature-row > div {
+          width: 100% !important;
+          text-align: center !important;
+        }
+        body {
+          padding: 10px;
+          font-size: 10pt;
+        }
+
+        .a4-page {
+          width: 100%;
+          min-height: auto;
+          padding: 15px;
+          box-shadow: none;
+          border-radius: 0;
+        }
+
+        .judul-transkrip {
+          font-size: 1.1em;
+          margin-bottom: 15px;
+        }
+
+        .identitas-table td {
+          font-size: 0.9em;
+          padding: 2px 0;
+        }
+
+        .identitas-label {
+          width: 90px;
+        }
+
+        .identitas-value {
+          padding-left: 8px;
+        }
+
+        .table-mata-kuliah th,
+        .table-mata-kuliah td {
+          padding: 6px 8px;
+          font-size: 0.9em;
+        }
+
+        .summary-signature-section {
+          flex-direction: column;
+          align-items: center;
+          padding-top: 20px;
+        }
+
+        .summary-container {
+          max-width: 100%;
+          margin-bottom: 20px;
+          text-align: center;
+          grid-template-columns: 1fr;
+          gap: 0;
+        }
+
+        .summary-label,
+        .summary-value,
+        .identitas-colon {
+          display: inline-block;
+        }
+
+        .signature-container {
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+        .signature-block {
+          align-items: center;
+          text-align: center;
+        }
+      }
+
+      @media print {
+        html,
+        body {
+          height: auto;
+          margin: 0;
+          padding: 0;
+          background-color: white;
+          color: #000;
+          -webkit-print-color-adjust: exact !important;
+          color-adjust: exact !important;
+          font-size: 11pt; /* Pastikan ukuran font tetap standar untuk cetak */
+        }
+
+        .print-button-container,
+        .print-instructions {
+          display: none;
+        }
+
+        .a4-page {
+          width: 210mm;
+          min-height: 297mm;
+          margin: 0;
+          padding: 4pt 15mm 4pt 15mm;
+          box-shadow: none;
+          display: block;
+          page-break-after: always;
+          margin-top: 4pt;
+          margin-bottom: 4pt;
+        }
+
+        .a4-page:last-of-type {
+          page-break-after: avoid;
+          margin-bottom: 0;
+        }
+
+        .header-kop-surat,
+        .judul-transkrip,
+        .container-identitas {
+          page-break-inside: avoid;
+        }
+
+        .container-mata-kuliah {
+          page-break-inside: auto;
+          flex-grow: unset;
+        }
+
+        .table-mata-kuliah {
+          width: 100%;
+          min-width: unset;
+        }
+        .table-mata-kuliah th,
+        .table-mata-kuliah td {
+          border: 0.1px solid #000 !important;
+        }
+        .table-mata-kuliah td:nth-child(3),
+        .table-mata-kuliah td:nth-child(5) {
+          text-align: left;
+          white-space: inherit;
+        }
+
+        .table-mata-kuliah td {
+          font-size: 0.7em;
+        }
+
+        .table-mata-kuliah th {
+          font-size: 0.8;
+        }
+
+        .summary-signature-section {
+          page-break-inside: avoid;
+          margin-top: auto;
+          padding-top: 15mm;
+        }
+
+        .summary-container {
+          max-width: 400px;
+          grid-template-columns: auto 10px 1fr;
+          margin-bottom: 0;
+          text-align: left;
+        }
+
+        .signature-block {
+          align-items: flex-start;
+          text-align: left;
+        }
+        .summary-label {
+          font-weight: 500;
+          font-size: 0.8;
+        }
+
+        .summary-value {
+          font-weight: 700;
+          font-size: 0.8;
+        }
+      }
+
+      @page {
+        size: A4 portrait;
+        margin: 2rem 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="print-button-container">
+      <button id="printButton" class="print-action-button">
+        <i class="fas fa-print"></i> Cetak Transkrip
+      </button>
+    </div>
+
+    <div class="a4-page" id="pageToPrint">
+      <header class="header-kop-surat">
+        <img
+          src="./img/kop_umkuningan.png"
+          alt="Kop Surat Lembaga Pembangunan, Pengembangan Teknologi dan SI"
+        />
+      </header>
+      <h1 class="judul-transkrip">Kontrak KRS</h1>
+
+      <section class="container-identitas">
+        <table class="identitas-table">
+          <tr>
+            <td class="identitas-label">Fakultas</td>
+            <td class="identitas-colon">:</td>
+            <td class="identitas-value">
+              Fakultas Pendidikan Sosial dan Teknologi
+            </td>
+          </tr>
+          <tr>
+            <td class="identitas-label">Program Studi</td>
+            <td class="identitas-colon">:</td>
+            <td class="identitas-value">
+              Pendidikan Teknologi Informasi dan Komunikasi
+            </td>
+          </tr>
+          <tr>
+            <td class="identitas-label">Nama</td>
+            <td class="identitas-colon">:</td>
+            <td class="identitas-value">Riki Muhamad Fadilah</td>
+          </tr>
+          <tr>
+            <td class="identitas-label">NIM</td>
+            <td class="identitas-colon">:</td>
+            <td class="identitas-value">211223049</td>
+          </tr>
+          <tr>
+            <td class="identitas-label">Semester</td>
+            <td class="identitas-colon">:</td>
+            <td class="identitas-value">1</td>
+          </tr>
+
+          <tr>
+            <td class="identitas-label">Jenjang</td>
+            <td class="identitas-colon">:</td>
+            <td class="identitas-value">S1 (Sarjana)</td>
+          </tr>
+        </table>
+      </section>
+
+      <section class="container-mata-kuliah">
+        <div class="table-responsive">
+          <table class="table-mata-kuliah">
+            <thead>
+              <tr>
+                <th class="text-center">NO</th>
+                <th class="text-center">KODE</th>
+                <th>MATA KULIAH</th>
+                <th class="text-center">SKS</th>
+                <th class="text-center">Dosen</th>
+                <th class="text-center">Kelas</th>
+                <th class="text-center">Hari</th>
+                <th class="text-center">Jam</th>
+                <th class="text-center">Ruangan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-center">1</td>
+                <td>1511E26</td>
+                <td>Hardware dan Elektronika Komputer</td>
+                <td>2</td>
+                <td>Yoyo Zakaria, S.Pd., M.Kom</td>
+                <td>1 B</td>
+                <td>Senin</td>
+                <td>07.00</td>
+                <td>A 202</td>
+              </tr>
+              <tr>
+                <td class="text-center">1</td>
+                <td>1511E26</td>
+                <td>
+                  Pengembangan dan Penerapan metodelogi penelitian manajemen
+                  informasi serta implementasi untuk kebutuhan usaha
+                </td>
+                <td>2</td>
+                <td>
+                  H. Dr. Lorem ipsum sit ahmet Febrianor Fadilah, S.Pd., M.Kom
+                </td>
+                <td>1 B</td>
+                <td>Senin</td>
+                <td>07.00</td>
+                <td>A 202</td>
+              </tr>
+              <tr>
+                <td class="text-center">1</td>
+                <td>1511E26</td>
+                <td>
+                  Pengembangan dan Penerapan metodelogi penelitian manajemen
+                  informasi serta implementasi untuk kebutuhan usaha
+                </td>
+                <td>2</td>
+                <td>
+                  H. Dr. Lorem ipsum sit ahmet Febrianor Fadilah, S.Pd., M.Kom
+                </td>
+                <td>1 B</td>
+                <td>Senin</td>
+                <td>07.00</td>
+                <td>A 202</td>
+              </tr>
+              <tr>
+                <td class="text-center">1</td>
+                <td>1511E26</td>
+                <td>
+                  Pengembangan dan Penerapan metodelogi penelitian manajemen
+                  informasi serta implementasi untuk kebutuhan usaha
+                </td>
+                <td>2</td>
+                <td>
+                  H. Dr. Lorem ipsum sit ahmet Febrianor Fadilah, S.Pd., M.Kom
+                </td>
+                <td>1 B</td>
+                <td>Senin</td>
+                <td>07.00</td>
+                <td>A 202</td>
+              </tr>
+              <tr>
+                <td class="text-center">1</td>
+                <td>1511E26</td>
+                <td>
+                  Pengembangan dan Penerapan metodelogi penelitian manajemen
+                  informasi serta implementasi untuk kebutuhan usaha
+                </td>
+                <td>2</td>
+                <td>
+                  H. Dr. Lorem ipsum sit ahmet Febrianor Fadilah, S.Pd., M.Kom
+                </td>
+                <td>1 B</td>
+                <td>Senin</td>
+                <td>07.00</td>
+                <td>A 202</td>
+              </tr>
+              <tr>
+                <td class="text-center">1</td>
+                <td>1511E26</td>
+                <td>
+                  Pengembangan dan Penerapan metodelogi penelitian manajemen
+                  informasi serta implementasi untuk kebutuhan usaha
+                </td>
+                <td>2</td>
+                <td>
+                  H. Dr. Lorem ipsum sit ahmet Febrianor Fadilah, S.Pd., M.Kom
+                </td>
+                <td>1 B</td>
+                <td>Senin</td>
+                <td>07.00</td>
+                <td>A 202</td>
+              </tr>
+              <tr>
+                <td class="text-center">1</td>
+                <td>1511E26</td>
+                <td>
+                  Pengembangan dan Penerapan metodelogi penelitian manajemen
+                  informasi serta implementasi untuk kebutuhan usaha
+                </td>
+                <td>2</td>
+                <td>
+                  H. Dr. Lorem ipsum sit ahmet Febrianor Fadilah, S.Pd., M.Kom
+                </td>
+                <td>1 B</td>
+                <td>Senin</td>
+                <td>07.00</td>
+                <td>A 202</td>
+              </tr>
+              <tr>
+                <td class="text-center">1</td>
+                <td>1511E26</td>
+                <td>
+                  Pengembangan dan Penerapan metodelogi penelitian manajemen
+                  informasi serta implementasi untuk kebutuhan usaha
+                </td>
+                <td>2</td>
+                <td>
+                  H. Dr. Lorem ipsum sit ahmet Febrianor Fadilah, S.Pd., M.Kom
+                </td>
+                <td>1 B</td>
+                <td>Senin</td>
+                <td>07.00</td>
+                <td>A 202</td>
+              </tr>
+              <tr>
+                <td class="text-center">1</td>
+                <td>1511E26</td>
+                <td>
+                  Pengembangan dan Penerapan metodelogi penelitian manajemen
+                  informasi serta implementasi untuk kebutuhan usaha
+                </td>
+                <td>2</td>
+                <td>
+                  H. Dr. Lorem ipsum sit ahmet Febrianor Fadilah, S.Pd., M.Kom
+                </td>
+                <td>1 B</td>
+                <td>Senin</td>
+                <td>07.00</td>
+                <td>A 202</td>
+              </tr>
+              <tr>
+                <td class="text-center">1</td>
+                <td>1511E26</td>
+                <td>
+                  Pengembangan dan Penerapan metodelogi penelitian manajemen
+                  informasi serta implementasi untuk kebutuhan usaha
+                </td>
+                <td>2</td>
+                <td>
+                  H. Dr. Lorem ipsum sit ahmet Febrianor Fadilah, S.Pd., M.Kom
+                </td>
+                <td>1 B</td>
+                <td>Senin</td>
+                <td>07.00</td>
+                <td>A 202</td>
+              </tr>
+              <tr>
+                <td class="text-center">1</td>
+                <td>1511E26</td>
+                <td>
+                  Pengembangan dan Penerapan metodelogi penelitian manajemen
+                  informasi serta implementasi untuk kebutuhan usaha
+                </td>
+                <td>2</td>
+                <td>
+                  H. Dr. Lorem ipsum sit ahmet Febrianor Fadilah, S.Pd., M.Kom
+                </td>
+                <td>1 B</td>
+                <td>Senin</td>
+                <td>07.00</td>
+                <td>A 202</td>
+              </tr>
+              <tr>
+                <td class="text-center">1</td>
+                <td>1511E26</td>
+                <td>
+                  Pengembangan dan Penerapan metodelogi penelitian manajemen
+                  informasi serta implementasi untuk kebutuhan usaha
+                </td>
+                <td>2</td>
+                <td>
+                  H. Dr. Lorem ipsum sit ahmet Febrianor Fadilah, S.Pd., M.Kom
+                </td>
+                <td>1 B</td>
+                <td>Senin</td>
+                <td>07.00</td>
+                <td>A 202</td>
+              </tr>
+              <tr>
+                <td class="text-center">1</td>
+                <td>1511E26</td>
+                <td>
+                  Pengembangan dan Penerapan metodelogi penelitian manajemen
+                  informasi serta implementasi untuk kebutuhan usaha
+                </td>
+                <td>2</td>
+                <td>
+                  H. Dr. Lorem ipsum sit ahmet Febrianor Fadilah, S.Pd., M.Kom
+                </td>
+                <td>1 B</td>
+                <td>Senin</td>
+                <td>07.00</td>
+                <td>A 202</td>
+              </tr>
+              <tr>
+                <td class="text-center">1</td>
+                <td>1511E26</td>
+                <td>
+                  Pengembangan dan Penerapan metodelogi penelitian manajemen
+                  informasi serta implementasi untuk kebutuhan usaha
+                </td>
+                <td>2</td>
+                <td>
+                  H. Dr. Lorem ipsum sit ahmet Febrianor Fadilah, S.Pd., M.Kom
+                </td>
+                <td>1 B</td>
+                <td>Senin</td>
+                <td>07.00</td>
+                <td>A 202</td>
+              </tr>
+              <tr>
+                <td class="text-center">1</td>
+                <td>1511E26</td>
+                <td>
+                  Pengembangan dan Penerapan metodelogi penelitian manajemen
+                  informasi serta implementasi untuk kebutuhan usaha
+                </td>
+                <td>2</td>
+                <td>
+                  H. Dr. Lorem ipsum sit ahmet Febrianor Fadilah, S.Pd., M.Kom
+                </td>
+                <td>1 B</td>
+                <td>Senin</td>
+                <td>07.00</td>
+                <td>A 202</td>
+              </tr>
+              <tr>
+                <td class="text-center">1</td>
+                <td>1511E26</td>
+                <td>
+                  Pengembangan dan Penerapan metodelogi penelitian manajemen
+                  informasi serta implementasi untuk kebutuhan usaha
+                </td>
+                <td>2</td>
+                <td>
+                  H. Dr. Lorem ipsum sit ahmet Febrianor Fadilah, S.Pd., M.Kom
+                </td>
+                <td>1 B</td>
+                <td>Senin</td>
+                <td>07.00</td>
+                <td>A 202</td>
+              </tr>
+              <tr>
+                <td class="text-center">1</td>
+                <td>1511E26</td>
+                <td>
+                  Pengembangan dan Penerapan metodelogi penelitian manajemen
+                  informasi serta implementasi untuk kebutuhan usaha
+                </td>
+                <td>2</td>
+                <td>
+                  H. Dr. Lorem ipsum sit ahmet Febrianor Fadilah, S.Pd., M.Kom
+                </td>
+                <td>1 B</td>
+                <td>Senin</td>
+                <td>07.00</td>
+                <td>A 202</td>
+              </tr>
+              <tr>
+                <td class="text-center">1</td>
+                <td>1511E26</td>
+                <td>
+                  Pengembangan dan Penerapan metodelogi penelitian manajemen
+                  informasi serta implementasi untuk kebutuhan usaha
+                </td>
+                <td>2</td>
+                <td>
+                  H. Dr. Lorem ipsum sit ahmet Febrianor Fadilah, S.Pd., M.Kom
+                </td>
+                <td>1 B</td>
+                <td>Senin</td>
+                <td>07.00</td>
+                <td>A 202</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="info-krs">
+          <div class="summary-label">SKS Ditempuh</div>
+          <div class="identitas-colon">:</div>
+          <div class="summary-value">&nbsp;21</div>
+          <div class="summary-label">Total SKS Ditempuh</div>
+          <div class="identitas-colon">:</div>
+          <div class="summary-value">&nbsp;150</div>
+        </div>
+      </section>
+
+      <footer class="summary-signature-section">
+        <div
+          class="signature-row"
+          style="
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5em;
+          "
+        >
+          <div style="width: 45%"></div>
+          <div style="width: 45%; text-align: right">
+            Kuningan, ................
+          </div>
+        </div>
+        <div class="signature-container">
+          <div class="signature-block">
+            <div>Ketua Prodi,</div>
+            <div style="height: 60px"></div>
+            <div class="signer-name">Dr. Boby Agustan, M.Pd.</div>
+            <div class="signer-nik">NIK. 201402033</div>
+          </div>
+          <div class="signature-block">
+            <div>Dosen Pembimbing Akademik,</div>
+            <div style="height: 60px"></div>
+            <div class="signer-name">Dr. Boby Agustan, M.Pd.</div>
+            <div class="signer-nik">NIK. 201402033</div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <div class="print-instructions">
+      <h3>Petunjuk Mencetak Kontrak KRS</h3>
+      <ol>
+        <li>
+          Gunakan browser <span style="font-weight: bold">Chrome</span> atau
+          <span style="font-weight: bold">Firefox</span> untuk hasil terbaik.
+        </li>
+        <li>
+          Tekan <span style="font-weight: bold">CTRL + P</span>
+          <span style="font-weight: bold">(atau Cmd+P di Mac)</span> atau klik
+          tombol <span style="font-weight: bold">Cetak Transkrip</span> di atas
+          untuk membuka tampilan print.
+        </li>
+        <li>
+          Set <span style="font-weight: bold">Destinasi</span> sesuai kebutuhan
+          Anda.
+        </li>
+        <li>
+          Simpan ke <span style="font-weight: bold">PDF</span> untuk download
+          sebagai file PDF.
+        </li>
+        <li>
+          Set <span style="font-weight: bold">Layout</span> ke "Portrait".
+        </li>
+        <li>
+          Set <span style="font-weight: bold">Ukuran Kertas</span> ke "A4".
+        </li>
+        <li>
+          Set <span style="font-weight: bold">Margin</span>:
+          <ul>
+            <li>Disarankan: "Default" atau "Minimum".</li>
+            <li>
+              Hindari "None" karena akan menghilangkan margin yang sudah diatur
+              di dokumen.
+            </li>
+          </ul>
+        </li>
+        <li>
+          Set <span style="font-weight: bold">Skala</span> ke "Default" atau
+          "100%".
+        </li>
+        <li>
+          Pastikan opsi
+          <span style="font-weight: bold">Grafis Latar Belakang</span>
+          (Background graphics)
+          <span style="font-weight: bold">Dicentang</span>. Jika tidak, warna
+          latar belakang header tabel mungkin tidak tercetak.
+        </li>
+      </ol>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const printButton = document.getElementById("printButton");
+        if (printButton) {
+          printButton.addEventListener("click", function () {
+            window.print();
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

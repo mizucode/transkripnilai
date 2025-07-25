@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Transkrip Nilai Sementara</title>
+    <title>Nilai Semester</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
       rel="stylesheet"
     />
     <link
@@ -17,7 +17,7 @@
 
     <style>
       body {
-        font-family: "Roboto", "Arial", sans-serif;
+        font-family: "Space Mono", "monospace";
         margin: 0;
         padding: 20px;
         background-color: #f4f6f8;
@@ -132,33 +132,31 @@
       .table-mata-kuliah {
         width: 100%;
         border-collapse: collapse;
-        font-size: 1em;
+        font-size: 0.8em;
         min-width: 600px;
       }
 
       .table-mata-kuliah th,
       .table-mata-kuliah td {
-        border: 1px solid #ccc;
+        border: 1px solid #000;
         padding: 8px 12px;
+        text-align: center;
+      }
+      .table-mata-kuliah td:nth-child(3) {
         text-align: left;
       }
 
       .table-mata-kuliah th {
-        background-color: #f2f2f2;
         font-weight: 700;
         text-transform: uppercase;
-      }
-
-      .table-mata-kuliah tbody tr:nth-child(even) {
-        background-color: #f9f9f9;
       }
 
       .summary-signature-section {
         width: 100%;
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-start;
+        justify-content: flex-end;
+        align-items: flex-end;
         margin-top: auto;
         page-break-inside: avoid;
         padding-top: 15mm;
@@ -171,6 +169,7 @@
         width: 100%;
         max-width: 400px;
         flex-shrink: 0;
+        padding-top: 14px;
       }
 
       .summary-label {
@@ -200,7 +199,6 @@
 
       .signer-name {
         font-weight: bold;
-        text-decoration: underline;
       }
 
       .print-instructions {
@@ -225,6 +223,10 @@
 
       .print-instructions li {
         margin-bottom: 5px;
+      }
+
+      .text-center {
+        text-align: center;
       }
 
       @media screen and (max-width: 768px) {
@@ -341,10 +343,12 @@
           width: 100%;
           min-width: unset;
         }
-
-        .table-mata-kuliah th,
-        .table-mata-kuliah td {
+        .table-mata-kuliah th {
           font-size: 1em;
+        }
+
+        .table-mata-kuliah td {
+          font-size: 0.8em;
         }
 
         .summary-signature-section {
@@ -352,8 +356,8 @@
           margin-top: auto;
           padding-top: 15mm;
           flex-direction: row;
-          justify-content: space-between;
-          align-items: flex-start;
+          justify-content: flex-end;
+          align-items: flex-end;
         }
 
         .summary-container {
@@ -391,10 +395,25 @@
         />
       </header>
 
-      <h1 class="judul-transkrip">Transkrip Nilai Sementara</h1>
+      <h1 class="judul-transkrip">Nilai Semester</h1>
 
       <section class="container-identitas">
         <table class="identitas-table">
+          <tr>
+            <td class="identitas-label">Fakultas</td>
+            <td class="identitas-colon">:</td>
+            <td class="identitas-value">
+              Fakultas Pendidikan Sosial dan Teknologi
+            </td>
+          </tr>
+          <tr>
+            <td class="identitas-label">Program Studi</td>
+            <td class="identitas-colon">:</td>
+            <td class="identitas-value">
+              Pendidikan Teknologi Informasi dan Komunikasi
+            </td>
+          </tr>
+
           <tr>
             <td class="identitas-label">Nama</td>
             <td class="identitas-colon">:</td>
@@ -406,19 +425,11 @@
             <td class="identitas-value">211223049</td>
           </tr>
           <tr>
-            <td class="identitas-label">Program Studi</td>
+            <td class="identitas-label">Semester ke</td>
             <td class="identitas-colon">:</td>
-            <td class="identitas-value">
-              Pendidikan Teknologi Informasi dan Komunikasi
-            </td>
+            <td class="identitas-value">VIII (Delapan)</td>
           </tr>
-          <tr>
-            <td class="identitas-label">Fakultas</td>
-            <td class="identitas-colon">:</td>
-            <td class="identitas-value">
-              Fakultas Pendidikan Sosial dan Teknologi
-            </td>
-          </tr>
+
           <tr>
             <td class="identitas-label">Jenjang</td>
             <td class="identitas-colon">:</td>
@@ -432,72 +443,111 @@
           <table class="table-mata-kuliah">
             <thead>
               <tr>
-                <th>NO</th>
-                <th>KODE</th>
+                <th class="text-center">NO</th>
+                <th class="text-center">KODE</th>
                 <th>MATA KULIAH</th>
-                <th>SKS</th>
-                <th>NILAI</th>
-                <th>TA</th>
+                <th class="text-center">SKS</th>
+                <th class="text-center">NILAI</th>
+                <th class="text-center">TA</th>
+                <th class="text-center">SKS X N</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>1</td>
+                <td class="text-center">1</td>
+                <td>MK101</td>
+                <td>
+                  sistem informasi berbasis modul dengan menggunakan media chat
+                  gpt manajemen
+                </td>
+                <td>3</td>
+                <td>A</td>
+                <td>9.0</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td class="text-center">1</td>
                 <td>MK101</td>
                 <td>Matematika Dasar</td>
                 <td>3</td>
                 <td>A</td>
-                <td>20211</td>
+                <td>9.0</td>
+                <td>0</td>
               </tr>
               <tr>
-                <td>2</td>
-                <td>MK102</td>
-                <td>Fisika Dasar</td>
+                <td class="text-center">1</td>
+                <td>MK101</td>
+                <td>Matematika Dasar</td>
                 <td>3</td>
-                <td>B+</td>
-                <td>20211</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>MK103</td>
-                <td>Kimia Dasar</td>
-                <td>3</td>
-                <td>B</td>
-                <td>20211</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>MK104</td>
-                <td>Bahasa Inggris</td>
-                <td>2</td>
-                <td>A-</td>
-                <td>20211</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>MK105</td>
-                <td>Pendidikan Agama</td>
-                <td>2</td>
                 <td>A</td>
-                <td>20211</td>
+                <td>9.0</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td class="text-center">1</td>
+                <td>MK101</td>
+                <td>Matematika Dasar</td>
+                <td>3</td>
+                <td>A</td>
+                <td>9.0</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td class="text-center">1</td>
+                <td>MK101</td>
+                <td>Matematika Dasar</td>
+                <td>3</td>
+                <td>A</td>
+                <td>9.0</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td class="text-center">1</td>
+                <td>MK101</td>
+                <td>Matematika Dasar</td>
+                <td>3</td>
+                <td>A</td>
+                <td>9.0</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td class="text-center">1</td>
+                <td>MK101</td>
+                <td>Matematika Dasar</td>
+                <td>3</td>
+                <td>A</td>
+                <td>9.0</td>
+                <td>0</td>
               </tr>
             </tbody>
+            <tfoot>
+              <tr>
+                <td class="text-center" colspan="3">Jumlah</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>0</td>
+              </tr>
+            </tfoot>
           </table>
+        </div>
+        <div class="summary-container">
+          <div class="summary-label">Total SKS Ditempuh</div>
+          <div class="identitas-colon">:</div>
+          <div class="summary-value">&nbsp;150</div>
+          <div class="summary-label">Indeks Prestasi Semester</div>
+          <div class="identitas-colon">:</div>
+          <div class="summary-value">&nbsp;3.28</div>
+          <div class="summary-label">Indeks Prestasi Kumulatif</div>
+          <div class="identitas-colon">:</div>
+          <div class="summary-value">&nbsp;3.28</div>
         </div>
       </section>
 
       <footer class="summary-signature-section">
-        <div class="summary-container">
-          <div class="summary-label">Total SKS Ditempuh</div>
-          <div class="identitas-colon">:</div>
-          <div class="summary-value">150</div>
-          <div class="summary-label">Indeks Prestasi Kumulatif</div>
-          <div class="identitas-colon">:</div>
-          <div class="summary-value">4.0</div>
-        </div>
-
         <div class="signature-block">
-          <div class="signature-date">Kuningan, 23 Juli 2025</div>
+          <div class="signature-date">Kuningan,</div>
+          <div class="signature-date">.....................</div>
           <div>Dekan,</div>
           <div style="height: 60px"></div>
           <div class="signer-name">Dr. Boby Agustan, M.Pd.</div>
